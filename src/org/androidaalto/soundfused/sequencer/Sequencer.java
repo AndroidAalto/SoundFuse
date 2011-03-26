@@ -12,18 +12,20 @@ import android.util.Log;
 /**
  * @class Sequencer
  * 
- *        This class provides the functionality for delivering different sounds
- *        at different points in the time. This is done using a sequencer matrix
- *        like the one below:
+ * This class provides the functionality for delivering different sounds
+ * at different points in the time. This is done using a sequencer matrix
+ * like the one below:
  * 
- *        ----------------------------------- | | | | | | | | | |
- *        ----------------------------------- | | | | | | | | | |
- *        ----------------------------------- 1 2 3 4 5 6 7 8 9
+ *  -----------------------------------
+ * |   |   |   |   |   |   |   |   |   |
+ *  -----------------------------------
+ * |   |   |   |   |   |   |   |   |   |
+ *  -----------------------------------
+ *   1   2   3   4   5   6   7   8   9
  * 
- *        Each row is a sample and each column is a beat within a time measure.
+ * Each row is a sample and each column is a beat within a time measure.
  * 
  * @author claudio
- * 
  */
 public class Sequencer
 {
@@ -44,17 +46,17 @@ public class Sequencer
         public void onBPM(float progress);
     }
 
+    
     // constructors
     /**
      * Default constructor.
-     * 
-     * FIXME: document this code!
      */
     public Sequencer(Context ctx)
     {
         this(ctx, 4, 8);
     }
 
+    
     /**
      * Concrete constructor.
      * 
@@ -63,8 +65,7 @@ public class Sequencer
      * @param ndivisions
      *            Number of time divisions (columns).
      */
-    public Sequencer(Context ctx, int nsamples, int nbeats)
-    {
+    public Sequencer(Context ctx, int nsamples, int nbeats) {
         context = ctx;
         rows = nsamples;
         beats = nbeats;
@@ -74,36 +75,58 @@ public class Sequencer
         matrix = new int[nsamples][nbeats];
     }
 
+    
     // API
     /**
-     * TODO: document this!
+     * Load a sample sound from a raw resource.
      * 
+     * @param sampleSrc Identifier of the raw resource.
      */
-    public void setSample(int id, int sampleSrc)
-    {
+    public void setSample(int id, int sampleSrc) {
         samples[id] = sound.load(context, sampleSrc, 1);
     }
-
+    
+    
     /**
-     * TODO: document this!
+     * Load a sample sound from a file path.
+     * 
+     * @param path String with the path to the sound file.
      */
-    public void enableCell(int sampleId, int beatId)
-    {
+    public void setSample(int id, String path) {
+        samples[id] = sound.load(path, 1);
+    }
+
+    
+    /**
+     * Set a cell to enabled.
+     * 
+     * @param sampleId The row of the matrix where the cell is.
+     * @param betaId   The column of the matrix where the cell is.
+     */
+    public void enableCell(int sampleId, int beatId) {
         this.setCell(sampleId, beatId, 1);
     }
 
+    
     /**
-     * TODO: document this!
+     * Set a cell to enabled.
+     * 
+     * @param sampleId The row of the matrix where the cell is.
+     * @param betaId   The column of the matrix where the cell is.
      */
-    public void disableCell(int sampleId, int beatId)
-    {
+    public void disableCell(int sampleId, int beatId) {
         this.setCell(sampleId, beatId, 0);
     }
 
+    
     /**
+     * Private method to enable/disable a cell.
+     * 
+     * @param sampleId The row of the matrix where the cell is.
+     * @param beatId   The column of the matrix where the cell is.
+     * @param value    0 means disabled, >= 1 enabled.
 	 */
-    private void setCell(int sampleId, int beatId, int value)
-    {
+    private void setCell(int sampleId, int beatId, int value) {
         matrix[sampleId][beatId] = value;
     }
     
@@ -111,11 +134,18 @@ public class Sequencer
         this.mOnBPMListener = l;
     }
 
+    
     /**
-     * TODO: document this!
+     * Start the playback.
+     * 
+     * This function goes through an infinite loop (until it is stopped
+     * using the stop() method). The matrix of samples and beats is divided
+     * by the number of beats.
+     * 
+     * On each iteration, a BPM callback is sent back to the objects that
+     * were registered on the OnBPMListener().
      */
-    public void play()
-    {
+    public void play() {
         // play sound periodically
         playback = new Runnable()
         {
@@ -149,10 +179,11 @@ public class Sequencer
         thandler.start();
     }
     
+    
     /**
+     * Stop the playback.
      */
-    public void stop()
-    {
+    public void stop() {
         playing = false;
     }
 }
