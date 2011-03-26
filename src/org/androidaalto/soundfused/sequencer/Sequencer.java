@@ -1,5 +1,11 @@
 package org.androidaalto.soundfused.sequencer;
 
+import android.R;
+import android.app.Activity;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Handler;
+
 
 /**
  * @class Sequencer
@@ -23,8 +29,15 @@ package org.androidaalto.soundfused.sequencer;
 public class Sequencer
 {
 	// attributes
-	private int rows;
-	private int divisions;
+	private int   rows; 	  // no. of samples
+	private int   divisions;  // no. of time divisions
+	private int[] samples;    // array of samples
+	private int[][] matrix;
+	private int   bpm;
+	private SoundPool sound;
+	private Activity context;
+	private Runnable playback;
+	private Handler myhandler;
 	
 	
 	// constructors
@@ -33,63 +46,81 @@ public class Sequencer
 	 * 
 	 * FIXME: document this code!
 	 */
-	public Sequencer()
+	public Sequencer(Activity ctx)
 	{
-		rows = 4;
-		divisions = 8;
+		this(ctx, 4, 8);
 	}
 	
 	/**
 	 * Concrete constructor.
 	 * 
-	 * @param r Number of samples (rows).
-	 * @param d Number of time divisions (columns).
+	 * @param nsamples   Number of samples (rows).
+	 * @param ndivisions Number of time divisions (columns).
 	 */
-	public Sequencer(int r, int d)
+	public Sequencer(Activity ctx, int nsamples, int ndivisions)
 	{
-		rows = r;
-		divisions = d;
+		context   = ctx;
+		rows      = nsamples;
+		divisions = ndivisions;
+		bpm       = 120;
+		samples   = new int[nsamples];
+		sound     = new SoundPool(nsamples, AudioManager.STREAM_MUSIC, 0);
+		matrix    = new int[nsamples][ndivisions];
 	}
 	
 	
 	// API
 	/**
-	 * Obtain the number of current samples (rows).
+	 * TODO: document this!
 	 * 
-	 * @return an integer with the number of current samples.
 	 */
-	public int getNumberOfSamples()
+	public void setSample(int id, int sampleSrc)
 	{
-		return rows;
+		samples[id] = sound.load(context, sampleSrc, 1);
 	}
 	
 	/**
-	 * Alias of getNumberOfRows().
-	 * 
-	 * @return an integer with the number of current samples. 
+	 * TODO: document this!
 	 */
-	public int getRows()
+	public void enableCell(int sampleId, int divisionId)
 	{
-		return getNumberOfSamples();
+		this.setCell(sampleId, divisionId, 1);
 	}
 	
 	/**
-	 * Obtain the number of time divisions (columns).
-	 * 
-	 * @return an integer with the number of time divisions.
+	 * TODO: document this!
 	 */
-	public int getDivisions()
+	public void disableCell(int sampleId, int divisionId)
 	{
-		return divisions;
+		this.setCell(sampleId, divisionId, 0);
 	}
 	
 	/**
-	 * Alias of getDivisions().
-	 * 
-	 * @return an integer with the number of time divisions.
 	 */
-	public int getColumns()
+	private void setCell(int sampleId, int divisionId, int value)
 	{
-		return getDivisions();
+		matrix[sampleId][divisionId] = value;
+	}
+	
+	/**
+	 * TODO: document this!
+	 */
+	public void play()
+	{
+        // play sound periodically
+        playback = new Runnable()
+        {
+        	public void run()
+        	{
+	        	// HERE WHAT IS MEANT TO BE DONE
+        		sound.play(samples[0], 100, 100, 1, 0, 1);
+	        	myhandler.postDelayed(this, (60 * 1000) / bpm);
+        	}
+        };
+             
+        // fetch messages and schedule a periodic retrieval
+        // HERE WHAT IS MEANT TO DO THE FIRST TIME
+        myhandler = new Handler();
+        myhandler.postDelayed(playback, (60 * 1000) / bpm);
 	}
 }
