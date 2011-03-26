@@ -63,6 +63,9 @@ public class BoardActivity extends Activity {
                 .getDefaultDisplay();
         int buttonWidth = display.getWidth() / TIMELINE;
         int buttonHeight = display.getHeight() / SAMPLERS;
+        
+        SamplerToggleListener samplerListener = new SamplerToggleListener();
+        
         for (int samplerPos = 0; samplerPos < SAMPLERS; samplerPos++) {
             Log.d("Board", "Button width: " + buttonWidth);
             for (int timelinePos = 0; timelinePos < TIMELINE; timelinePos++) {
@@ -75,6 +78,8 @@ public class BoardActivity extends Activity {
                         + timelinePos + ")");
                 samplersButtons[samplerPos][timelinePos].setWidth(buttonWidth);
                 samplersButtons[samplerPos][timelinePos].setHeight(buttonHeight);
+                samplersButtons[samplerPos][timelinePos].setId(TIMELINE * samplerPos + timelinePos);
+                samplersButtons[samplerPos][timelinePos].setOnClickListener(samplerListener);
                 boardLayouts[samplerPos].addView(samplersButtons[samplerPos][timelinePos]);
             }
         }
