@@ -1,4 +1,4 @@
-package org.androidaalto.org.sequencer;
+package org.androidaalto.soundfused.sequencer;
 
 
 /**
