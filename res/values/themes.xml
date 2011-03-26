@@ -1,0 +1,9 @@
+<resources>
+    <style
+        name="CustomButton"
+        parent="android:style/Theme.NoTitleBar">
+     
+        <item
+            name="android:buttonStyleToggle">@style/FQToggleButton</item>
+    </style>
+</resources>
