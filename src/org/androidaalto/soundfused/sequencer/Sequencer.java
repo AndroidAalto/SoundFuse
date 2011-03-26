@@ -2,6 +2,7 @@ package org.androidaalto.soundfused.sequencer;
 
 import android.R;
 import android.app.Activity;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
@@ -35,7 +36,7 @@ public class Sequencer
 	private int[][] matrix;
 	private int   bpm;
 	private SoundPool sound;
-	private Activity context;
+	private Context context;
 	private Runnable playback;
 	private Handler myhandler;
 	
@@ -46,7 +47,7 @@ public class Sequencer
 	 * 
 	 * FIXME: document this code!
 	 */
-	public Sequencer(Activity ctx)
+	public Sequencer(Context ctx)
 	{
 		this(ctx, 4, 8);
 	}
@@ -57,7 +58,7 @@ public class Sequencer
 	 * @param nsamples   Number of samples (rows).
 	 * @param ndivisions Number of time divisions (columns).
 	 */
-	public Sequencer(Activity ctx, int nsamples, int ndivisions)
+	public Sequencer(Context ctx, int nsamples, int ndivisions)
 	{
 		context   = ctx;
 		rows      = nsamples;
@@ -110,8 +111,13 @@ public class Sequencer
         // play sound periodically
         playback = new Runnable()
         {
+        	int count = -1;
+        	
         	public void run()
         	{
+        		count = (count + 1) % 8;
+        		
+        		
 	        	// HERE WHAT IS MEANT TO BE DONE
         		sound.play(samples[0], 100, 100, 1, 0, 1);
 	        	myhandler.postDelayed(this, (60 * 1000) / bpm);
