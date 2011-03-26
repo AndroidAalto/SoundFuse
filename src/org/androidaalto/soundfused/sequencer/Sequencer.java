@@ -33,6 +33,7 @@ public class Sequencer
     private Context   context;
     private Runnable  playback;
     private Handler   myhandler;
+    private boolean playing = false;
 
     // constructors
     /**
@@ -114,16 +115,23 @@ public class Sequencer
                 for (int i = 0; i < rows; i++)
                     if (matrix[i][count] != 0)
                         sound.play(samples[i], 100, 100, 1, 0, 1);
-
-                // HERE WHAT IS MEANT TO BE DONE
-                sound.play(samples[0], 100, 100, 1, 0, 1);
-                myhandler.postDelayed(this, (60 * 1000) / bpm);
+                
+                if (playing)
+                    myhandler.postDelayed(this, (60 * 1000) / bpm);
             }
         };
 
         // fetch messages and schedule a periodic retrieval
         // HERE WHAT IS MEANT TO DO THE FIRST TIME
         myhandler = new Handler();
+        playing = true;
         myhandler.postDelayed(playback, (60 * 1000) / bpm);
+    }
+    
+    /**
+     */
+    public void stop()
+    {
+        playing = false;
     }
 }
