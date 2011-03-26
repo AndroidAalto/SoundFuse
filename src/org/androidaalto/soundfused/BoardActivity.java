@@ -47,6 +47,12 @@ public class BoardActivity extends Activity {
 
         prepareBoard();
     }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        sequencer.stop();
+    }
 
     private void prepareBoard() {
         createLayouts();
