@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
 
+
 /**
  * @class Sequencer
  * 
@@ -33,7 +34,12 @@ public class Sequencer
     private Context   context;
     private Runnable  playback;
     private Handler   myhandler;
-    private boolean playing = false;
+    private boolean   playing = false;
+    private OnBPMListener mOnBPMListener;
+    
+    public interface OnBPMListener {
+        public void onBPM(float progress);
+    }
 
     // constructors
     /**
@@ -97,6 +103,10 @@ public class Sequencer
     {
         matrix[sampleId][beatId] = value;
     }
+    
+    public void setOnBPMListener(OnBPMListener l) {
+        this.mOnBPMListener = l;
+    }
 
     /**
      * TODO: document this!
@@ -111,6 +121,9 @@ public class Sequencer
             public void run()
             {
                 count = (count + 1) % beats;
+                
+                if (mOnBPMListener != null)
+                    mOnBPMListener.onBPM(count);
 
                 for (int i = 0; i < rows; i++)
                     if (matrix[i][count] != 0)
