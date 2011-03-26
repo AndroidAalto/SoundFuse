@@ -1,9 +1,12 @@
 package org.androidaalto.soundfused.sequencer;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
+import android.util.Log;
 
 
 /**
@@ -116,29 +119,34 @@ public class Sequencer
         // play sound periodically
         playback = new Runnable()
         {
-            int count = -1;
+            int count = 0;
 
             public void run()
             {
-                count = (count + 1) % beats;
-                
                 if (mOnBPMListener != null)
                     mOnBPMListener.onBPM(count);
 
-                for (int i = 0; i < rows; i++)
-                    if (matrix[i][count] != 0)
-                        sound.play(samples[i], 100, 100, 1, 0, 1);
-                
-                if (playing)
-                    myhandler.postDelayed(this, (60 * 1000) / bpm);
+                while (playing) {
+                    long millis = System.currentTimeMillis();
+                    for (int i = 0; i < rows; i++)
+                        if (matrix[i][count] != 0)
+                            sound.play(samples[i], 100, 100, 1, 0, 1);
+
+                    count = (count + 1) % beats;
+                    long next = (60 * 1000) / bpm;
+                    try {
+                        Thread.sleep(next - (System.currentTimeMillis() - millis));
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
             }
         };
 
-        // fetch messages and schedule a periodic retrieval
-        // HERE WHAT IS MEANT TO DO THE FIRST TIME
-        myhandler = new Handler();
         playing = true;
-        myhandler.postDelayed(playback, (60 * 1000) / bpm);
+        Thread thandler = new Thread(playback);
+        thandler.start();
     }
     
     /**
