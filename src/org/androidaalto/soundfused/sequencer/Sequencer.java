@@ -153,10 +153,10 @@ public class Sequencer
 
             public void run()
             {
-                if (mOnBPMListener != null)
-                    mOnBPMListener.onBPM(count);
 
                 while (playing) {
+                    if (mOnBPMListener != null)
+                        mOnBPMListener.onBPM(count);
                     long millis = System.currentTimeMillis();
                     for (int i = 0; i < rows; i++)
                         if (matrix[i][count] != 0)
