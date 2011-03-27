@@ -12,6 +12,7 @@ import android.view.Display;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
@@ -20,7 +21,11 @@ public class BoardActivity extends Activity {
 
     public static final int TOTAL_SAMPLES = 4;
 
+    FrameLayout rootLayout;
+
     LinearLayout mainLayout;
+    
+    ProgressBarView progressBarView;
 
     Sequencer sequencer;
 
@@ -47,7 +52,7 @@ public class BoardActivity extends Activity {
 
         prepareBoard();
     }
-    
+
     @Override
     public void onPause() {
         super.onPause();
@@ -56,11 +61,13 @@ public class BoardActivity extends Activity {
 
     private void prepareBoard() {
         createLayouts();
-        setContentView(mainLayout);
+        setContentView(rootLayout);
         createBoardButtons();
     }
 
     private void createLayouts() {
+        rootLayout = new FrameLayout(this);
+        
         mainLayout = new LinearLayout(this);
         mainLayout.setOrientation(LinearLayout.VERTICAL);
         mainLayout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
@@ -72,7 +79,7 @@ public class BoardActivity extends Activity {
             boardLayouts[samplePos].setBackgroundColor(Color.rgb(255, 0, 0));
             mainLayout.addView(boardLayouts[samplePos]);
         }
-
+        rootLayout.addView(mainLayout);
     }
 
     private void createBoardButtons() {
@@ -80,6 +87,10 @@ public class BoardActivity extends Activity {
                 .getDefaultDisplay();
         int buttonWidth = display.getWidth() / TOTAL_BEATS;
         int buttonHeight = display.getHeight() / TOTAL_SAMPLES;
+        
+        progressBarView = new ProgressBarView(this, display.getWidth(), display.getHeight(), buttonWidth, 120, TOTAL_BEATS);
+        sequencer.setOnBPMListener(progressBarView);
+        rootLayout.addView(progressBarView);
 
         SamplerToggleListener samplerListener = new SamplerToggleListener(sequencer, this,
                 TOTAL_SAMPLES, TOTAL_BEATS);
@@ -93,8 +104,7 @@ public class BoardActivity extends Activity {
                 samplersButtons[samplePos][beatPos].setText("");
                 samplersButtons[samplePos][beatPos].setWidth(buttonWidth);
                 samplersButtons[samplePos][beatPos].setHeight(buttonHeight);
-                samplersButtons[samplePos][beatPos].setId(TOTAL_BEATS * samplePos
-                        + beatPos);
+                samplersButtons[samplePos][beatPos].setId(TOTAL_BEATS * samplePos + beatPos);
                 samplersButtons[samplePos][beatPos].setOnClickListener(samplerListener);
                 boardLayouts[samplePos].addView(samplersButtons[samplePos][beatPos]);
             }
