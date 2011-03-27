@@ -1,12 +1,8 @@
 package org.androidaalto.soundfused.sequencer;
 
-import java.util.concurrent.ThreadPoolExecutor;
-
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Handler;
-import android.util.Log;
 
 
 /**
@@ -16,13 +12,14 @@ import android.util.Log;
  * at different points in the time. This is done using a sequencer matrix
  * like the one below:
  * 
+ * <pre>
  *  -----------------------------------
  * |   |   |   |   |   |   |   |   |   |
  *  -----------------------------------
  * |   |   |   |   |   |   |   |   |   |
  *  -----------------------------------
  *   1   2   3   4   5   6   7   8   9
- * 
+ * </pre>
  * Each row is a sample and each column is a beat within a time measure.
  * 
  * @author claudio
@@ -38,12 +35,15 @@ public class Sequencer
     private SoundPool sound;
     private Context   context;
     private Runnable  playback;
-    private Handler   myhandler;
     private boolean   playing = false;
     private OnBPMListener mOnBPMListener;
     
     public interface OnBPMListener {
-        public void onBPM(float progress);
+        /**
+         * This method is called every time there's a new beat.
+         * @param beatCount the immediately next beat position to play.
+         */
+        public void onBPM(int beatCount);
     }
 
     
