@@ -134,7 +134,14 @@ public class Sequencer
         this.mOnBPMListener = l;
     }
 
-    
+    public int getBpm() {
+        return bpm;
+    }
+
+    public void setBpm(int bpm) {
+        this.bpm = bpm;
+    }
+
     /**
      * Start the playback.
      * 
