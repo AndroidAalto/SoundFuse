@@ -88,7 +88,7 @@ public class BoardActivity extends Activity {
         int buttonWidth = display.getWidth() / TOTAL_BEATS;
         int buttonHeight = display.getHeight() / TOTAL_SAMPLES;
         
-        progressBarView = new ProgressBarView(this, display.getWidth(), display.getHeight(), buttonWidth, 120, TOTAL_BEATS);
+        progressBarView = new ProgressBarView(this, display.getWidth(), display.getHeight(), buttonWidth, sequencer.getBpm());
         sequencer.setOnBPMListener(progressBarView);
         rootLayout.addView(progressBarView);
 

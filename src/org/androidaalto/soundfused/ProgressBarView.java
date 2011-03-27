@@ -13,6 +13,8 @@ import android.view.View;
 
 public class ProgressBarView extends View implements OnBPMListener {
 
+    private static final int BAR_WIDTH = 25;
+
     private static final int PROGRESS_SIZE = 15;
 
     ShapeDrawable progressBar;
@@ -22,28 +24,25 @@ public class ProgressBarView extends View implements OnBPMListener {
     Handler progressHandler;
 
     // All the sizes are in pixels
-    int totalWidth, totalHeight;
+    int totalWidth, barHeight, currentBarXPos, beatLength;
 
-    int barWidth, barHeight;
-
-    int currentBarXPos;
-
-    int beatLength;
-
-    private static int barColor = Color.RED;
+    private static int barColor = Color.YELLOW;
 
     private static final int BAR_TRANSPARENCY = 200;
 
-    long next = 0;
+    long nextCallDelay = 0;
 
     Runnable progressRunnable = new Runnable() {
 
         @Override
         public void run() {
-            moveBar();
-            progressHandler.removeCallbacks(progressRunnable);
-            progressHandler.postDelayed(progressRunnable, next);
             thisView.invalidate();
+
+            // Clean any pending callback
+            progressHandler.removeCallbacks(progressRunnable);
+            // Schedule a new callback
+            progressHandler.postDelayed(progressRunnable, nextCallDelay);
+            moveBar();
         }
     };
 
@@ -53,18 +52,23 @@ public class ProgressBarView extends View implements OnBPMListener {
      * @param height sequencer board total height
      * @param beatLength beat length in pixels
      */
-    public ProgressBarView(Context context, int width, int height, int beatLength, int bpm,
-            int totalBeats) {
+    public ProgressBarView(Context context, int width, int height, int beatLength, int bpm) {
         super(context);
         progressHandler = new Handler();
 
-        barWidth = 15;
         barHeight = height;
         totalWidth = width;
-        totalHeight = height;
-        currentBarXPos = width / 2;
+        currentBarXPos = 0;
 
-        next = (((60 * 1000) / bpm) * totalBeats) / (width / PROGRESS_SIZE);
+        // How long it takes to go through a beat
+        long beatTime = (60 * 1000) / bpm;
+
+        // How many times the bar needs to be moved to complete a beat
+        int nCallsToGoThroughABeat = beatLength / PROGRESS_SIZE;
+
+        // the total time per beat divided by the number of calls tells us how
+        // often the move needs to be called
+        nextCallDelay = beatTime / nCallsToGoThroughABeat;
 
         this.beatLength = beatLength;
 
@@ -78,7 +82,7 @@ public class ProgressBarView extends View implements OnBPMListener {
     private void moveBar() {
         synchronized (progressBar) {
             currentBarXPos = (currentBarXPos + PROGRESS_SIZE) % totalWidth;
-            progressBar.setBounds(currentBarXPos - barWidth, 0, currentBarXPos, barHeight);
+            progressBar.setBounds(currentBarXPos - BAR_WIDTH, 0, currentBarXPos, barHeight);
         }
     }
 
@@ -90,7 +94,7 @@ public class ProgressBarView extends View implements OnBPMListener {
     }
 
     @Override
-    public void onBPM(float progress) {
-        currentBarXPos = (int) progress * beatLength;
+    public void onBPM(int beatCount) {
+        currentBarXPos = beatCount * beatLength;
     }
 }
