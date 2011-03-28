@@ -47,7 +47,6 @@ public class BoardActivity extends Activity {
         sequencer.setSample(1, R.raw.hhc);
         sequencer.setSample(2, R.raw.hho);
         sequencer.setSample(3, R.raw.snare);
-        sequencer.play();
 
         // Use the whole device screen.
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -62,7 +61,13 @@ public class BoardActivity extends Activity {
         super.onPause();
         sequencer.stop();
     }
-    
+
+    @Override
+    protected void onResume() {
+        sequencer.play();
+        super.onResume();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
