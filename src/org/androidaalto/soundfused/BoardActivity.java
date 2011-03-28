@@ -5,11 +5,15 @@ import org.androidaalto.soundfused.sequencer.Sequencer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -18,9 +22,8 @@ import android.widget.ToggleButton;
 
 public class BoardActivity extends Activity {
     public static final int TOTAL_BEATS = 8;
-
     public static final int TOTAL_SAMPLES = 4;
-
+    
     FrameLayout rootLayout;
 
     LinearLayout mainLayout;
@@ -38,6 +41,7 @@ public class BoardActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.e("TEST", "bdadfs");
         sequencer = new Sequencer(this, TOTAL_SAMPLES, TOTAL_BEATS);
         sequencer.setSample(0, R.raw.bass);
         sequencer.setSample(1, R.raw.hhc);
@@ -58,6 +62,27 @@ public class BoardActivity extends Activity {
         super.onPause();
         sequencer.stop();
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.select_sample:
+                // file picker
+                Intent i = new Intent(BoardActivity.this, AndroidExplorer.class);
+                startActivity(i);
+                // TODO:quelcom glue the returning filepath
+        }
+        return false;
+    }
+
 
     private void prepareBoard() {
         createLayouts();
@@ -69,6 +94,7 @@ public class BoardActivity extends Activity {
         rootLayout = new FrameLayout(this);
         
         mainLayout = new LinearLayout(this);
+        
         mainLayout.setOrientation(LinearLayout.VERTICAL);
         mainLayout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
                 LayoutParams.FILL_PARENT));
