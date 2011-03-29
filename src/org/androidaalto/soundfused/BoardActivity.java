@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
+import java.util.Random;
 
 public class BoardActivity extends Activity {
     public static final int TOTAL_BEATS = 8;
@@ -84,6 +85,9 @@ public class BoardActivity extends Activity {
                 startActivityForResult(i, 0);
             case R.id.toggle_sequencer:
                 sequencer.toggle();
+            case R.id.shuffle:
+                Log.e("SHUFFLE", "called shuffler");
+                shuffle();
         }
         return false;
     }
@@ -159,6 +163,19 @@ public class BoardActivity extends Activity {
                 samplersButtons[samplePos][beatPos].setOnClickListener(samplerListener);
                 boardLayouts[samplePos].addView(samplersButtons[samplePos][beatPos]);
             }
+        }
+    }
+
+    /**
+     * Select randomly some tiles and toggle their status.
+     * Useful to generate new combinations.
+     * Could be combined later on with the accelerometer to create new rythms.
+     */
+    private void shuffle() {
+        int maxTiles = 5;   // Max amount of tiles to alter
+        Random seed = new Random();
+        for ( int i=0; i < maxTiles; i++ ) {
+            samplersButtons[seed.nextInt(TOTAL_SAMPLES - 1)][seed.nextInt(TOTAL_BEATS -1)].performClick();
         }
     }
 

@@ -9,4 +9,8 @@
         android:id="@+id/toggle_sequencer"
         android:title="Toggle sequencer"
         android:icon="@android:drawable/ic_media_play" />
+    <item
+        android:id="@+id/shuffle"
+        android:title="Shuffle samples"
+        />
 </menu>
