@@ -50,18 +50,13 @@ public class ProgressBarView extends View implements OnBPMListener {
 
     private static final int BAR_TRANSPARENCY = 200;
 
-    long nextCallDelay = 0;
+    long updateDelay, beatTime;
 
     Runnable progressRunnable = new Runnable() {
 
         @Override
         public void run() {
             thisView.invalidate();
-
-            // Clean any pending callback
-            progressHandler.removeCallbacks(progressRunnable);
-            // Schedule a new callback
-            progressHandler.postDelayed(progressRunnable, nextCallDelay);
             moveBar();
         }
     };
@@ -81,22 +76,16 @@ public class ProgressBarView extends View implements OnBPMListener {
         currentBarXPos = 0;
 
         // How long it takes to go through a beat
-        long beatTime = (60 * 1000) / bpm;
-
-        // How many times the bar needs to be moved to complete a beat
-        int nCallsToGoThroughABeat = beatLength / PROGRESS_SIZE;
-
-        // the total time per beat divided by the number of calls tells us how
-        // often the move needs to be called
-        nextCallDelay = beatTime / nCallsToGoThroughABeat;
-
+        this.beatTime = (60 * 1000) / bpm;
         this.beatLength = beatLength;
+
+        int nCallsToGoThroughABeat = beatLength / PROGRESS_SIZE;
+        this.updateDelay = beatTime / nCallsToGoThroughABeat;
 
         progressBar = new ShapeDrawable(new RectShape());
         progressBar.getPaint().setColor(barColor);
         progressBar.setAlpha(BAR_TRANSPARENCY);
         moveBar();
-        progressHandler.postDelayed(progressRunnable, 0);
     }
 
     private void moveBar() {
@@ -116,5 +105,10 @@ public class ProgressBarView extends View implements OnBPMListener {
     @Override
     public void onBPM(int beatCount) {
         currentBarXPos = beatCount * beatLength;
+        
+        progressHandler.removeCallbacks(progressRunnable);
+        for (int i = 0; i < beatTime; i += updateDelay) {
+        	progressHandler.postDelayed(progressRunnable, i);
+        }
     }
 }
