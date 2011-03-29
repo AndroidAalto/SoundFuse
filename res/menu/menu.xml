@@ -5,4 +5,8 @@
         android:id="@+id/select_sample"
         android:title="Select sample file"
         android:icon="@android:drawable/ic_menu_info_details" />
+    <item
+        android:id="@+id/toggle_sequencer"
+        android:title="Toggle sequencer"
+        android:icon="@android:drawable/ic_media_play" />
 </menu>

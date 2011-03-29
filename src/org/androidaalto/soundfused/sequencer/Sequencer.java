@@ -193,4 +193,17 @@ public class Sequencer
     public void stop() {
         playing = false;
     }
+    
+    /**
+     * Toggle the reproduction
+     */
+    public void toggle() {
+        if ( playing ) {
+            stop();
+        }
+        else {
+            play();
+        }
+    }
+    
 }

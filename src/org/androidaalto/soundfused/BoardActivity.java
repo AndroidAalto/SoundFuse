@@ -82,6 +82,8 @@ public class BoardActivity extends Activity {
                 // file picker
                 Intent i = new Intent(BoardActivity.this, AndroidExplorer.class);
                 startActivityForResult(i, 0);
+            case R.id.toggle_sequencer:
+                sequencer.toggle();
         }
         return false;
     }
