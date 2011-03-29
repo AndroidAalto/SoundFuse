@@ -41,7 +41,6 @@ public class BoardActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.e("TEST", "bdadfs");
         sequencer = new Sequencer(this, TOTAL_SAMPLES, TOTAL_BEATS);
         sequencer.setSample(0, R.raw.bass);
         sequencer.setSample(1, R.raw.hhc);
@@ -82,12 +81,31 @@ public class BoardActivity extends Activity {
             case R.id.select_sample:
                 // file picker
                 Intent i = new Intent(BoardActivity.this, AndroidExplorer.class);
-                startActivity(i);
-                // TODO:quelcom glue the returning filepath
+                startActivityForResult(i, 0);
         }
         return false;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+        case 0:
+            if (resultCode == Activity.RESULT_OK) {
+                String path = data.getStringExtra("path");
+                Log.i("ANDROIDEXPLORER", "path: " + path);
+                // reset the latest sample
+                sequencer.setSample(3, path);
+                // TODO it should actually add a new sample rather than overwriting an existing one
+                // TODO rethink the ui so it allows addition/removing samples on runtime
+            } else if (resultCode == RESULT_CANCELED) {
+                // User didn't select a file. Nothing to do here.
+            }
+        default:
+            break;
+        }
+    }
 
     private void prepareBoard() {
         createLayouts();

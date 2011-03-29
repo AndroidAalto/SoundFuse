@@ -6,9 +6,12 @@ package org.androidaalto.soundfused;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -88,13 +91,11 @@ public class AndroidExplorer extends ListActivity {
                         }).show();
             }
         } else {
-            new AlertDialog.Builder(this).setIcon(R.drawable.icon).setTitle("[" + file.getName() + "]")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //TODO:quelcom finish activity and return file path
-                        }
-                    }).show();
+            // Found a supported file type. Return the full path of the file to the caller activity (BoardActivity).
+            Intent resultIntent = new Intent(getApplicationContext(), BoardActivity.class);
+            resultIntent.putExtra("path", file.getPath());
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
         }
     }
 }
