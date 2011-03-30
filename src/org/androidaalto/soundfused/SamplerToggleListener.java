@@ -32,17 +32,19 @@ import android.widget.ToggleButton;
 public class SamplerToggleListener implements OnClickListener {
 
     Sequencer sequencer;
+    int beats;
 
     public SamplerToggleListener(Sequencer sequencer, Context ctx, int samples, int beats) {
         this.sequencer = sequencer;
+        this.beats = beats;
     }
 
     @Override
     public void onClick(View v) {
         int buttonId = v.getId();
 
-        int samplerId = buttonId / BoardActivity.TOTAL_BEATS;
-        int beatId = buttonId % BoardActivity.TOTAL_BEATS;
+        int samplerId = buttonId / this.beats;
+        int beatId = buttonId % this.beats;
         if (!(v instanceof ToggleButton)) {
             Log.e("SampleToggleListener", "Invalid View type: " + v.getClass());
             return;
