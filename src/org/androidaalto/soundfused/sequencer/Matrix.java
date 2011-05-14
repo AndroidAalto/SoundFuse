@@ -24,6 +24,7 @@ package org.androidaalto.soundfused.sequencer;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.Log;
 
 
 /**
@@ -70,7 +71,8 @@ public class Matrix
         rows    = r;
         beats   = cols;
         enabled = false;
-    }
+        data = new Cell[r][cols];
+     }
 
     
     /**
@@ -81,7 +83,8 @@ public class Matrix
      */
     public int getCellValue(int r, int c)
     {
-        return (data[r][c]).getValue();
+    	return (data[r][c]).getValue();
+    	 
     }
 
     

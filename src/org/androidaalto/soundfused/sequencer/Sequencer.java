@@ -125,7 +125,7 @@ public class Sequencer
      * @param betaId   The column of the matrix where the cell is.
      */
     public void enableCell(int sampleId, int beatId) {
-    	matrix.enableCell(sampleId, beatId);
+    	matrix.setCellValue(sampleId, beatId,1);
     }
 
     
@@ -136,7 +136,7 @@ public class Sequencer
      * @param betaId   The column of the matrix where the cell is.
      */
     public void disableCell(int sampleId, int beatId) {
-    	matrix.disableCell(sampleId, beatId);
+    	matrix.setCellValue(sampleId, beatId,0);
     }
     
     /**
@@ -198,8 +198,11 @@ public class Sequencer
                         mOnBPMListener.onBPM(count);
                     long millis = System.currentTimeMillis();
                     for (int i = 0; i < rows; i++)
-                        if (matrix[i][count] != 0)
+                    {	
+                    	System.out.println("Row-COl "+i+"-"+count);
+                        if (matrix.getCellValue(i,count) != 0)
                             sound.play(samples[i], 100, 100, 1, 0, 1);
+                    }
 
                     count = (count + 1) % beats;
                     long next = (60 * 1000) / bpm;

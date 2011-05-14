@@ -43,7 +43,7 @@ import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 public class BoardActivity extends Activity {
-    public static final int TOTAL_BEATS = 12;
+    public static final int TOTAL_BEATS = 8;
     public static final int TOTAL_SAMPLES = 4;
     
     FrameLayout rootLayout;
