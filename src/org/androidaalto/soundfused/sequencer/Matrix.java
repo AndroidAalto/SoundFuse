@@ -45,7 +45,7 @@ import android.media.SoundPool;
  * 
  * @author claudio
  */
-public class Sequencer
+public class Matrix
 {
     // attributes
     private int       rows;     // no. of samples
