@@ -44,6 +44,9 @@
                   android:label="Select file"
                   android:screenOrientation="landscape">
         </activity>
+       <activity android:name="Preferences"
+        android:label="Preferences"
+        ></activity>
 
     </application>
 </manifest>

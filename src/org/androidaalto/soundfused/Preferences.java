@@ -21,7 +21,6 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.e("TEST", "foooooo");
         setResult(1);
         finish();
     }
