@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation='vertical' android:layout_width='wrap_content'
+	android:layout_height='wrap_content' android:padding='3dp'
+	android:paddingLeft='8dp' android:paddingRight='8dp'>
+	<!-- This layout is used by setting the 'dialogLayout' attribute in DialogPreference -->
+
+	<!-- This is filled by the 'message' attribute on DialogPreference: -->
+	<TextView android:id='@android:id/message'
+		android:layout_width='fill_parent' android:layout_height='wrap_content'
+		android:textAppearance='?android:attr/textAppearanceMedium'
+		android:layout_marginBottom='10dp' />
+	<org.androidaalto.soundfused.picker.NumberPicker
+		android:id="@+id/pref_num_picker" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+</LinearLayout>
