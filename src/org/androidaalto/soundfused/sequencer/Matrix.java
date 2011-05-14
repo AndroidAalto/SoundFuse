@@ -27,7 +27,7 @@ import android.media.SoundPool;
 
 
 /**
- * @class Sequencer
+ * @class Matrix
  * 
  * This class provides the functionality for delivering different sounds
  * at different points in the time. This is done using a sequencer matrix
