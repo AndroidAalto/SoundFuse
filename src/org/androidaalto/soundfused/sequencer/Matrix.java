@@ -74,7 +74,7 @@ public class Matrix
 
     
     /**
-     * Set a cell to enabled.
+     * Enable a cell.
      * 
      * @param r The row of the matrix where the cell is.
      * @param c The column of the matrix where the cell is.
@@ -86,7 +86,7 @@ public class Matrix
 
     
     /**
-     * Set a cell to enabled.
+     * Disable a cell.
      * 
      * @param r The row of the matrix where the cell is.
      * @param c The column of the matrix where the cell is.
