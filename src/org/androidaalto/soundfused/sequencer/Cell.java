@@ -56,7 +56,7 @@ public class Cell
     public Cell()
     {
     	value = 0;
-    	System.out.println("CElll ");
+    	
     }
     
     

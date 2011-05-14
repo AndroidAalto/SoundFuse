@@ -162,7 +162,7 @@ public class BoardActivity extends Activity {
             boardLayouts[samplePos] = new LinearLayout(this);
             boardLayouts[samplePos].setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
                     LayoutParams.WRAP_CONTENT));
-            boardLayouts[samplePos].setBackgroundColor(Color.rgb(255, 0, 0));
+            //boardLayouts[samplePos].setBackgroundColor(Color.rgb(1, 0, 0));
             mainLayout.addView(boardLayouts[samplePos]);
         }
         rootLayout.addView(mainLayout);
@@ -191,7 +191,7 @@ public class BoardActivity extends Activity {
                 samplersButtons[samplePos][beatPos].setWidth(buttonWidth);
                 samplersButtons[samplePos][beatPos].setHeight(buttonHeight);
                 samplersButtons[samplePos][beatPos].setId(TOTAL_BEATS * samplePos + beatPos);
-                //samplersButtons[samplePos][beatPos].setBackgroundResource(R.drawable.button_selector);
+                samplersButtons[samplePos][beatPos].setBackgroundResource(R.drawable.custom_button);
                 samplersButtons[samplePos][beatPos].setOnClickListener(samplerListener);
                 
                 boardLayouts[samplePos].addView(samplersButtons[samplePos][beatPos]);
