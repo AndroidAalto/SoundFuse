@@ -51,13 +51,13 @@ public class Sequencer
     private int       rows;     // no. of samples
     private int       beats;    // no. of time divisions
     private int[]     samples;  // array of samples
-    private int[][]   matrix;
     private int       bpm;
     private SoundPool sound;
     private Context   context;
     private Runnable  playback;
     private boolean   playing = false;
     private OnBPMListener mOnBPMListener;
+    private Matrix  	matrix;
     
     public interface OnBPMListener {
         /**
@@ -93,7 +93,7 @@ public class Sequencer
         bpm = 120;
         samples = new int[nsamples];
         sound = new SoundPool(nsamples, AudioManager.STREAM_MUSIC, 0);
-        matrix = new int[nsamples][nbeats];
+        matrix = new Matrix(ctx,rows,beats);
     }
 
     
@@ -125,7 +125,7 @@ public class Sequencer
      * @param betaId   The column of the matrix where the cell is.
      */
     public void enableCell(int sampleId, int beatId) {
-        this.setCell(sampleId, beatId, 1);
+    	matrix.enableCell(sampleId, beatId);
     }
 
     
@@ -136,7 +136,7 @@ public class Sequencer
      * @param betaId   The column of the matrix where the cell is.
      */
     public void disableCell(int sampleId, int beatId) {
-        this.setCell(sampleId, beatId, 0);
+    	matrix.disableCell(sampleId, beatId);
     }
 
     
@@ -147,9 +147,9 @@ public class Sequencer
      * @param beatId   The column of the matrix where the cell is.
      * @param value    0 means disabled, >= 1 enabled.
 	 */
-    private void setCell(int sampleId, int beatId, int value) {
+    /*private void setCell(int sampleId, int beatId, int value) {
         matrix[sampleId][beatId] = value;
-    }
+    }*/
     
     public void setOnBPMListener(OnBPMListener l) {
         this.mOnBPMListener = l;
@@ -163,6 +163,18 @@ public class Sequencer
         this.bpm = bpm;
     }
 
+    
+    public void addColumns(int ncol)
+    {
+    	this.beats = this.beats+ncol;
+    }
+    
+    public void deleteColumns(int ncol)
+    {
+    	this.beats = this.beats-ncol;
+    }
+    
+    
     /**
      * Start the playback.
      * 
