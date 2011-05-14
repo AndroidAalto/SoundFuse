@@ -50,10 +50,15 @@ public class Cell
 {
     private int value = 0;
     
+    
+    
+    // default constructor
     public Cell()
     {
     	value = 0;
     }
+    
+    
     /**
      * Check if a cell is enabled or disabled.
      * 
@@ -103,7 +108,6 @@ public class Cell
      */
     public int getValue()
     {
-    	Log.v("vafad","asdlkfsdlkfhsld");
         return value;
     }
 }

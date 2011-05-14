@@ -41,7 +41,10 @@ import android.media.SoundPool;
  *  -----------------------------------
  *   1   2   3   4   5   6   7   8   9
  * </pre>
- * Each row is a sample and each column is a beat within a time measure.
+ * 
+ * This structure is contained in the class Matrix.
+ * 
+ * @see Matrix
  * 
  * @author claudio
  */

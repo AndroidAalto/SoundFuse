@@ -22,9 +22,6 @@
 package org.androidaalto.soundfused.sequencer;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.util.Log;
 
 
 /**
@@ -70,7 +67,7 @@ public class Matrix
         context = ctx;
         rows    = r;
         beats   = cols;
-        enabled = false;
+        enabled = false; 
         data = new Cell[r][cols];
      }
 
@@ -84,7 +81,6 @@ public class Matrix
     public int getCellValue(int r, int c)
     {
     	return (data[r][c]).getValue();
-    	 
     }
 
     
@@ -97,5 +93,38 @@ public class Matrix
      */
     public void setCellValue(int r, int c, int v) {
         (data[r][c]).setValue(v);
+    }
+    
+    /**
+     * Add n columns to the end of the matrix.
+     * 
+     * @param n Number of columns to add.
+     */
+    public void grow(int n)
+    {
+        if (n <= 0)
+            return;
+    }
+    
+    /**
+     * Delete n columns from the end of the matrix.
+     * 
+     * @param n Number of columns to delete.
+     */
+    public void shrink(int n)
+    {
+        if (n <= 0)
+            return;
+    }
+    
+    /**
+     * Delete a concrete column in the matrix.
+     * 
+     * @param n Number (index) of the column to delete.
+     */
+    public void deleteColumn(int n)
+    {
+        if ((n <= 0) || (n >= this.beats))
+            return;
     }
 }
