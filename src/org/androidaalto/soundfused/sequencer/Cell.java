@@ -24,6 +24,7 @@ package org.androidaalto.soundfused.sequencer;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.Log;
 
 
 /**
@@ -49,6 +50,10 @@ public class Cell
 {
     private int value = 0;
     
+    public Cell()
+    {
+    	value = 0;
+    }
     /**
      * Check if a cell is enabled or disabled.
      * 
@@ -98,6 +103,7 @@ public class Cell
      */
     public int getValue()
     {
+    	Log.v("vafad","asdlkfsdlkfhsld");
         return value;
     }
 }
