@@ -24,7 +24,7 @@ package org.androidaalto.soundfused;
 // taken from http://android-er.blogspot.com/2010/01/implement-simple-file-explorer-in.html
 // adapted to show only desired formats
 
-import java.io.File;
+import java.io.File; 
 import java.util.ArrayList;
 import java.util.List;
 
