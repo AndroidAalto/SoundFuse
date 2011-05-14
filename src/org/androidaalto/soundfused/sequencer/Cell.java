@@ -27,7 +27,7 @@ import android.media.SoundPool;
 
 
 /**
- * @class Matrix
+ * @class Cell
  * 
  * This class provides the functionality for delivering different sounds
  * at different points in the time. This is done using a sequencer matrix
@@ -45,54 +45,59 @@ import android.media.SoundPool;
  * 
  * @author claudio
  */
-public class Matrix
+public class Cell
 {
-    // attributes
-    private int       rows;     // no. of samples
-    private int       beats;    // no. of time divisions
-    private int[]     samples;  // array of samples
-    private Context   context;
-    private Cell[][]  data;
-    private boolean   enabled;
+    private int value = 0;
     
-    
-    // constructors
     /**
-     * Default constructor.
+     * Check if a cell is enabled or disabled.
      * 
-     * @param ctx  Application context.
-     * @param r    Number of initial rows (sounds).
-     * @param cols Number of initial columns (beta divisions).
+     * @return true if the cell is enabled.
      */
-    public Matrix(Context ctx, int r, int cols)
+    public boolean isEnabled()
     {
-        context = ctx;
-        rows    = r;
-        beats   = cols;
-        enabled = false;
+        if (value > 0)
+            return true;
+        
+        return false;
     }
 
     
     /**
-     * Set a cell to enabled.
-     * 
-     * @param r The row of the matrix where the cell is.
-     * @param c The column of the matrix where the cell is.
+     * Enable a cell.
      */
-    public int getCellValue(int r, int c)
+    public void enable()
     {
-        return (data[r][c]).getValue();
+        value = 1;
+    }
+    
+    
+    /**
+     * Disable a cell.
+     */
+    public void disable()
+    {
+        value = 0;
     }
 
     
     /**
-     * Set a cell to enabled.
+     * Set the value of a cell (0 = disable, >0 = enabled).
      * 
-     * @param r The row of the matrix where the cell is.
-     * @param c The column of the matrix where the cell is.
-     * @param v Value of the cell.
+     * @param v Value to set the cell.
      */
-    public void setCellValue(int r, int c, int v) {
-        (data[r][c]).setValue(v);
+    public void setValue(int v)
+    {
+        value = v;
+    }
+    
+    /**
+     * Get the value of a cell (0 = disable, >0 = enabled).
+     * 
+     * @return the value of the cell.
+     */
+    public int getValue()
+    {
+        return value;
     }
 }

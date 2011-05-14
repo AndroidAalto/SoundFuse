@@ -32,4 +32,8 @@
         android:id="@+id/toggle_sequencer"
         android:title="Toggle sequencer"
         android:icon="@android:drawable/ic_media_play" />
+    <item
+        android:id="@+id/preferences"
+        android:title="Preferences"
+        android:icon="@android:drawable/ic_menu_info_details" />
 </menu>

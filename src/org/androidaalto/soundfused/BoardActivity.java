@@ -26,14 +26,16 @@ import org.androidaalto.soundfused.sequencer.Sequencer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -104,6 +106,9 @@ public class BoardActivity extends Activity {
                 startActivityForResult(i, 0);
             case R.id.toggle_sequencer:
                 sequencer.toggle();
+            case R.id.preferences:
+                Intent preferencesActivity = new Intent(getBaseContext(), Preferences.class);
+                startActivityForResult(preferencesActivity, 1);
         }
         return false;
     }
@@ -124,6 +129,16 @@ public class BoardActivity extends Activity {
             } else if (resultCode == RESULT_CANCELED) {
                 // User didn't select a file. Nothing to do here.
             }
+            break;
+        case 1:
+            if ( resultCode == 1 ) {
+                // Coming from preferences
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                String newBpm = prefs.getString("bpm", "120");
+                Log.e("TEST", "new bpm is " + Integer.parseInt(newBpm));
+                sequencer.setBpm(Integer.parseInt(newBpm));
+            }
+            break;
         default:
             break;
         }

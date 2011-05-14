@@ -138,7 +138,6 @@ public class Sequencer
     public void disableCell(int sampleId, int beatId) {
     	matrix.disableCell(sampleId, beatId);
     }
-
     
     /**
      * Private method to enable/disable a cell.
