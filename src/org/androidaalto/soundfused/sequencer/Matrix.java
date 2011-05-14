@@ -51,63 +51,26 @@ public class Matrix
     private int       rows;     // no. of samples
     private int       beats;    // no. of time divisions
     private int[]     samples;  // array of samples
-    private int[][]   matrix;
-    private int       bpm;
-    private SoundPool sound;
     private Context   context;
-    private Runnable  playback;
-    private boolean   playing = false;
-    private OnBPMListener mOnBPMListener;
     
-    public interface OnBPMListener {
-        /**
-         * This method is called every time there's a new beat.
-         * @param beatCount the immediately next beat position to play.
-         */
-        public void onBPM(int beatCount);
-    }
-
     
     // constructors
     /**
      * Default constructor.
+     * 
+     * @param ctx  Application context.
+     * @param r    Number of initial rows (sounds).
+     * @param cols Number of initial columns (beta divisions).
      */
-    public Sequencer(Context ctx)
+    public Matrix(Context ctx, int r, int cols)
     {
-        this(ctx, 4, 8);
-    }
-
-    
-    /**
-     * Concrete constructor.
-     * 
-     * @param nsamples
-     *            Number of samples (rows).
-     * @param ndivisions
-     *            Number of time divisions (columns).
-     */
-    public Sequencer(Context ctx, int nsamples, int nbeats) {
         context = ctx;
-        rows = nsamples;
-        beats = nbeats;
-        bpm = 120;
-        samples = new int[nsamples];
-        sound = new SoundPool(nsamples, AudioManager.STREAM_MUSIC, 0);
-        matrix = new int[nsamples][nbeats];
+        rows    = r;
+        beats   = cols;
     }
 
     
-    // API
-    /**
-     * Load a sample sound from a raw resource.
-     * 
-     * @param sampleSrc Identifier of the raw resource.
-     */
-    public void setSample(int id, int sampleSrc) {
-        samples[id] = sound.load(context, sampleSrc, 1);
-    }
-    
-    
+    // API 
     /**
      * Load a sample sound from a file path.
      * 
@@ -150,81 +113,4 @@ public class Matrix
     private void setCell(int sampleId, int beatId, int value) {
         matrix[sampleId][beatId] = value;
     }
-    
-    public void setOnBPMListener(OnBPMListener l) {
-        this.mOnBPMListener = l;
-    }
-
-    public int getBpm() {
-        return bpm;
-    }
-
-    public void setBpm(int bpm) {
-        this.bpm = bpm;
-    }
-
-    /**
-     * Start the playback.
-     * 
-     * This function goes through an infinite loop (until it is stopped
-     * using the stop() method). The matrix of samples and beats is divided
-     * by the number of beats.
-     * 
-     * On each iteration, a BPM callback is sent back to the objects that
-     * were registered on the OnBPMListener().
-     */
-    public void play() {
-        // play sound periodically
-        playback = new Runnable()
-        {
-            int count = 0;
-
-            public void run()
-            {
-
-                while (playing) {
-                    if (mOnBPMListener != null)
-                        mOnBPMListener.onBPM(count);
-                    long millis = System.currentTimeMillis();
-                    for (int i = 0; i < rows; i++)
-                        if (matrix[i][count] != 0)
-                            sound.play(samples[i], 100, 100, 1, 0, 1);
-
-                    count = (count + 1) % beats;
-                    long next = (60 * 1000) / bpm;
-                    try {
-                        Thread.sleep(next - (System.currentTimeMillis() - millis));
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-
-        playing = true;
-        Thread thandler = new Thread(playback);
-        thandler.start();
-    }
-    
-    
-    /**
-     * Stop the playback.
-     */
-    public void stop() {
-        playing = false;
-    }
-    
-    /**
-     * Toggle the reproduction
-     */
-    public void toggle() {
-        if ( playing ) {
-            stop();
-        }
-        else {
-            play();
-        }
-    }
-    
 }
