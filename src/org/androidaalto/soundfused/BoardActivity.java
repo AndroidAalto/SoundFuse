@@ -191,7 +191,9 @@ public class BoardActivity extends Activity {
                 samplersButtons[samplePos][beatPos].setWidth(buttonWidth);
                 samplersButtons[samplePos][beatPos].setHeight(buttonHeight);
                 samplersButtons[samplePos][beatPos].setId(TOTAL_BEATS * samplePos + beatPos);
+                //samplersButtons[samplePos][beatPos].setBackgroundResource(R.drawable.button_selector);
                 samplersButtons[samplePos][beatPos].setOnClickListener(samplerListener);
+                
                 boardLayouts[samplePos].addView(samplersButtons[samplePos][beatPos]);
             }
         }

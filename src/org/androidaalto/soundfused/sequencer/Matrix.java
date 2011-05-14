@@ -21,6 +21,7 @@
  ******************************************************************************/
 package org.androidaalto.soundfused.sequencer;
 
+
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -72,6 +73,9 @@ public class Matrix
         beats   = cols;
         enabled = false;
         data = new Cell[r][cols];
+        for(int i=0;i<r;i++)
+        	for(int j=0;j<cols;j++)
+        		data[i][j] = new Cell();
      }
 
     
