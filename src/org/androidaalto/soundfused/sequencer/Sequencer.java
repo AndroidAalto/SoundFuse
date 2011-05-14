@@ -138,7 +138,6 @@ public class Sequencer
     public void disableCell(int sampleId, int beatId) {
         this.setCell(sampleId, beatId, 0);
     }
-
     
     /**
      * Private method to enable/disable a cell.
