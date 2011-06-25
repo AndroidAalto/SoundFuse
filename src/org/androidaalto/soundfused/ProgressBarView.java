@@ -19,6 +19,7 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
  ******************************************************************************/
+
 package org.androidaalto.soundfused;
 
 import org.androidaalto.soundfused.sequencer.Sequencer.OnBPMListener;
@@ -105,10 +106,10 @@ public class ProgressBarView extends View implements OnBPMListener {
     @Override
     public void onBPM(int beatCount) {
         currentBarXPos = beatCount * beatLength;
-        
+
         progressHandler.removeCallbacks(progressRunnable);
         for (int i = 0; i < beatTime; i += updateDelay) {
-        	progressHandler.postDelayed(progressRunnable, i);
+            progressHandler.postDelayed(progressRunnable, i);
         }
     }
 }

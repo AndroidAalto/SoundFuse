@@ -19,6 +19,7 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
  ******************************************************************************/
+
 package org.androidaalto.soundfused;
 
 // taken from http://android-er.blogspot.com/2010/01/implement-simple-file-explorer-in.html
@@ -34,7 +35,6 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -43,9 +43,13 @@ import android.widget.TextView;
 public class AndroidExplorer extends ListActivity {
 
     private List<String> item = null;
+
     private List<String> path = null;
+
     private String root = "/sdcard"; // default was root
+
     private TextView myPath;
+
     private String regexp = "(?i:.*.(ogg|mp3))"; // available file extensions
 
     /** Called when the activity is first created. */
@@ -90,7 +94,8 @@ public class AndroidExplorer extends ListActivity {
             }
         }
 
-        ArrayAdapter<String> fileList = new ArrayAdapter<String>(this, R.layout.fileexplorer_row, item);
+        ArrayAdapter<String> fileList = new ArrayAdapter<String>(this, R.layout.fileexplorer_row,
+                item);
         setListAdapter(fileList);
     }
 
@@ -112,7 +117,8 @@ public class AndroidExplorer extends ListActivity {
                         }).show();
             }
         } else {
-            // Found a supported file type. Return the full path of the file to the caller activity (BoardActivity).
+            // Found a supported file type. Return the full path of the file to
+            // the caller activity (BoardActivity).
             Intent resultIntent = new Intent(getApplicationContext(), BoardActivity.class);
             resultIntent.putExtra("path", file.getPath());
             setResult(Activity.RESULT_OK, resultIntent);

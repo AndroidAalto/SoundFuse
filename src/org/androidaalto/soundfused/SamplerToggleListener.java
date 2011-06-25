@@ -19,6 +19,7 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
  ******************************************************************************/
+
 package org.androidaalto.soundfused;
 
 import org.androidaalto.soundfused.sequencer.Sequencer;
@@ -32,6 +33,7 @@ import android.widget.ToggleButton;
 public class SamplerToggleListener implements OnClickListener {
 
     Sequencer sequencer;
+
     int beats;
 
     public SamplerToggleListener(Sequencer sequencer, Context ctx, int samples, int beats) {

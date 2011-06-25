@@ -3,12 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="Languages">
-
         <EditTextPreference
             android:title="BPM"
             android:key="bpm"
             android:defaultValue="120">
         </EditTextPreference>
-        
     </PreferenceCategory>
 </PreferenceScreen>
