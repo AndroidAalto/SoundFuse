@@ -2,26 +2,27 @@
 
    Copyright: 2011 Android Aalto Community
 
-   This file is part of SoundFused.
+   This file is part of SoundFuse.
 
-   SoundFused is free software; you can redistribute it and/or modify
+   SoundFuse is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
-   SoundFused is distributed in the hope that it will be useful,
+   SoundFuse is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with SoundFused; if not, write to the Free Software
+   along with SoundFuse; if not, write to the Free Software
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
  ******************************************************************************/
-package org.androidaalto.soundfused;
 
-import org.androidaalto.soundfused.sequencer.Sequencer.OnBPMListener;
+package org.androidaalto.soundfuse;
+
+import org.androidaalto.soundfuse.sequencer.Sequencer.OnBPMListener;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -105,10 +106,10 @@ public class ProgressBarView extends View implements OnBPMListener {
     @Override
     public void onBPM(int beatCount) {
         currentBarXPos = beatCount * beatLength;
-        
+
         progressHandler.removeCallbacks(progressRunnable);
         for (int i = 0; i < beatTime; i += updateDelay) {
-        	progressHandler.postDelayed(progressRunnable, i);
+            progressHandler.postDelayed(progressRunnable, i);
         }
     }
 }
