@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.androidaalto.soundfused.picker;
+package org.androidaalto.soundfuse.picker;
 
-import org.androidaalto.soundfused.R;
+import org.androidaalto.soundfuse.R;
 
 import android.content.Context;
 import android.util.AttributeSet;

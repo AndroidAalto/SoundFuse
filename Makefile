@@ -2,7 +2,7 @@ all: debug
 run: run-debug
 
 run-debug: debug
-	adb shell am start -a android.intent.action.MAIN -n org.androidaalto.soundfused/.BoardActivity
+	adb shell am start -a android.intent.action.MAIN -n org.androidaalto.soundfuse/.BoardActivity
 
 debug: build.xml
 	ant debug
